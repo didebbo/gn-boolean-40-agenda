@@ -1,23 +1,22 @@
 <template>
   <div id="app">
-    <!-- <div class="agenda">
+    <div class="agenda">
       <div
         class="face"
-        v-for="(page, index) in agenda.currentPages"
+        v-for="(page, index) in agenda.currentPages.slice().reverse()"
         :key="index"
       >
         <textarea
           spellcheck="false"
-          v-model="page.textarea"
+          v-model="page.body"
           @input="syncToLocalStorage()"
-          @focus="agenda.currentPage = page.index"
         ></textarea>
         <span>
           {{ page.index }}
         </span>
       </div>
     </div>
-    <button @click="nextFace()">Next</button> -->
+    <!-- <button @click="nextFace()">Next</button> -->
   </div>
 </template>
 
@@ -39,6 +38,7 @@ export default {
     this.loadPages();
   },
   methods: {
+    syncToLocalStorage() {},
     initAgenda() {
       if (localStorage.agenda) this.agenda = JSON.parse(localStorage.agenda);
       else {
