@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="agenda">
+    <!-- <div class="agenda">
       <div
         class="face"
         v-for="(page, index) in agenda.currentPages"
@@ -17,7 +17,7 @@
         </span>
       </div>
     </div>
-    <button @click="nextFace()">Next</button>
+    <button @click="nextFace()">Next</button> -->
   </div>
 </template>
 
@@ -27,58 +27,30 @@ export default {
   data: () => {
     return {
       agenda: {
-        facesNumber: 2,
-        currentFace: 2,
-        faces: [],
+        facesNumber: null,
+        currentFace: null,
+        pages: [],
       },
     };
   },
   mounted() {
-    if (localStorage.agenda) this.agenda = JSON.parse(localStorage.agenda);
-    else this.createAgenda();
-    this.loadAgenda();
+    this.initAgenda();
   },
   methods: {
-    syncToLocalStorage() {
-      localStorage.agenda = JSON.stringify(this.agenda);
-    },
-    createAgenda() {
-      for (let face = 0; face <= this.agenda.facesNumber; face++) {
-        for (let page = face; page <= face + 1; page++) {
-          this.agenda.faces.push({
-            index: this.agenda.pages.length + 1,
-            textarea: "",
-          });
-        }
-      }
-    },
-    loadAgenda() {
-      this.agenda.currentPages = [];
-      for (
-        let page = this.agenda.currentFace;
-        page <= this.agenda.currentFace + 1;
-        page++
-      ) {
-        console.log(page);
-        this.agenda.currentPages.push(this.agenda.pages[page - 1]);
-      }
-    },
-    nextFace() {
-      if (this.agenda.currentFace >= this.agenda.facesNumber) {
-        for (let page = face; page <= face + 1; page++) {
+    initAgenda() {
+      if(localStorage.agenda) this.agenda = JSON.parse(localStorage.agenda);
+      else {
+        this.agenda.facesNumber = 1;
+        this.agenda.currentFace = 1;
+        for(let i = 1; i <= 2; i++) {
           this.agenda.pages.push({
-            index: this.agenda.pages.length + 1,
-            textarea: "",
+            index: i,
+            header: '',
+            body: '',
           });
         }
-      }
-      this.agenda.currentFace++;
-      this.loadAgenda();
+      }  
     },
-    // prevFace() {
-    //   this.agenda.currentFace--;
-    //   this.loadAgenda();
-    // },
   },
 };
 </script>
