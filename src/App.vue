@@ -30,26 +30,41 @@ export default {
         facesNumber: null,
         currentFace: null,
         pages: [],
+        currentPages: [],
       },
     };
   },
   mounted() {
     this.initAgenda();
+    this.loadPages();
   },
   methods: {
     initAgenda() {
-      if(localStorage.agenda) this.agenda = JSON.parse(localStorage.agenda);
+      if (localStorage.agenda) this.agenda = JSON.parse(localStorage.agenda);
       else {
         this.agenda.facesNumber = 1;
         this.agenda.currentFace = 1;
-        for(let i = 1; i <= 2; i++) {
+        for (let i = 1; i <= 2; i++) {
           this.agenda.pages.push({
             index: i,
-            header: '',
-            body: '',
+            header: "",
+            body: "",
           });
         }
-      }  
+      }
+    },
+    loadPages() {
+      console.log("svuoto currentPages[]");
+      this.agenda.currentPages = [];
+      for (
+        let i = this.agenda.currentFace * 2;
+        i >= this.agenda.currentFace * 2 - 1;
+        i--
+      ) {
+        console.log(i);
+        console.log("aggiungo in currentPages " + this.agenda.pages[i]);
+        this.agenda.currentPages.push(this.agenda.pages[i -1]);
+      }
     },
   },
 };
