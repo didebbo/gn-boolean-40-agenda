@@ -38,7 +38,9 @@ export default {
     this.loadPages();
   },
   methods: {
-    syncToLocalStorage() {},
+    syncToLocalStorage() {
+      localStorage.agenda = JSON.stringify(this.agenda);
+    },
     initAgenda() {
       if (localStorage.agenda) this.agenda = JSON.parse(localStorage.agenda);
       else {
