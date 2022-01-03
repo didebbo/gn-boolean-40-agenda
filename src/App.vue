@@ -9,11 +9,13 @@
         v-for="(page, index) in agenda.currentPages"
         :key="index"
       >
-        <input type="text" 
-        spellcheck="false"
-        placeholder="Titolo" 
-        maxlength="40"
-        @input="syncToLocalStorage()" />
+        <input
+          type="text"
+          spellcheck="false"
+          placeholder="Titolo"
+          maxlength="40"
+          @input="syncToLocalStorage()"
+        />
         <textarea
           spellcheck="false"
           v-model="page.body"
@@ -26,9 +28,11 @@
       </div>
     </div>
     <button
-    :disabled="agenda.currentFace >= agenda.maxFaces" 
-    @click="nextFace()"
-    >Next</button>
+      :disabled="agenda.currentFace >= agenda.maxFaces"
+      @click="nextFace()"
+    >
+      Next
+    </button>
   </div>
 </template>
 
@@ -39,7 +43,7 @@ export default {
     return {
       agenda: {
         currentFace: 1,
-        maxFaces: 364 /2,
+        maxFaces: 364 / 2,
         pages: [],
         currentPages: [],
       },
@@ -111,28 +115,45 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #bca183;
+  button {
+    border: none;
+    padding: 1em;
+    margin: 1em;
+    &:enabled {
+      cursor: pointer;
+    }
+  }
   .agenda {
+    border-radius: 0.4em;
     border: 0.2em solid black;
-    width: calc(100% / 1.2);
+    // width: calc(100% / 1.2);
     height: calc(100% / 1.1);
+    background-color: #785046;
+    flex-grow: 1;
     padding: 1em;
     display: flex;
     .face {
+      background-color: #efedde;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       flex-grow: 1;
       border: 0.2em solid black;
+      border-radius: 0.4em;
       padding: 0.5em;
       display: flex;
-      input,textarea {
+      input,
+      textarea {
+        background-color: transparent;
         width: 100%;
         font-family: monospace;
         border: none;
         resize: none;
         &::placeholder {
-            opacity: 0.1;
-          }
+          opacity: 0.1;
+        }
         &:focus {
           outline: none;
           &::placeholder {
