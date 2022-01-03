@@ -1,15 +1,23 @@
 <template>
   <div id="app">
-    <button :disabled="agenda.currentFace <= 1" @click="prevFace()">Prev</button>
+    <button :disabled="agenda.currentFace <= 1" @click="prevFace()">
+      Prev
+    </button>
     <div class="agenda">
       <div
         class="face"
         v-for="(page, index) in agenda.currentPages"
         :key="index"
       >
+        <input type="text" 
+        spellcheck="false"
+        placeholder="Titolo" 
+        maxlength="40"
+        @input="syncToLocalStorage()" />
         <textarea
           spellcheck="false"
           v-model="page.body"
+          placeholder="Contenuto..."
           @input="syncToLocalStorage()"
         ></textarea>
         <span>
@@ -43,16 +51,16 @@ export default {
     },
     createPages() {
       for (
-          let i = this.agenda.currentFace * 2;
-          i >= this.agenda.currentFace * 2 - 1;
-          i--
-        ) {
-          this.agenda.pages.push({
-            index: i,
-            header: "",
-            body: "",
-          });
-        }
+        let i = this.agenda.currentFace * 2;
+        i >= this.agenda.currentFace * 2 - 1;
+        i--
+      ) {
+        this.agenda.pages.push({
+          index: i,
+          header: "",
+          body: "",
+        });
+      }
     },
     initAgenda() {
       if (localStorage.agenda) this.agenda = JSON.parse(localStorage.agenda);
@@ -74,7 +82,8 @@ export default {
     },
     nextFace() {
       this.agenda.currentFace++;
-      if (this.agenda.pages.length < this.agenda.currentFace * 2) this.createPages();
+      if (this.agenda.pages.length < this.agenda.currentFace * 2)
+        this.createPages();
       this.loadCurrentPages();
       this.syncToLocalStorage();
     },
@@ -82,7 +91,7 @@ export default {
       this.agenda.currentFace--;
       this.loadCurrentPages();
       this.syncToLocalStorage();
-    }
+    },
   },
 };
 </script>
@@ -112,16 +121,25 @@ export default {
       border: 0.2em solid black;
       padding: 0.5em;
       display: flex;
-      textarea {
+      input,textarea {
         width: 100%;
-        flex-grow: 1;
         font-family: monospace;
-        font-size: 1.2em;
         border: none;
         resize: none;
         &:focus {
           outline: none;
+          &::placeholder {
+            opacity: 0;
+          }
         }
+      }
+      input {
+        text-align: center;
+        font-size: 1.5em;
+      }
+      textarea {
+        flex-grow: 1;
+        font-size: 1.2em;
       }
       span {
         position: relative;
