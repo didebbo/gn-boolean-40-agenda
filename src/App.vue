@@ -16,7 +16,7 @@
         </span>
       </div>
     </div>
-    <!-- <button @click="nextFace()">Next</button> -->
+    <button @click="nextFace()">Next</button>
   </div>
 </template>
 
@@ -26,8 +26,7 @@ export default {
   data: () => {
     return {
       agenda: {
-        facesNumber: null,
-        currentFace: null,
+        currentFace: 1,
         pages: [],
         currentPages: [],
       },
@@ -35,27 +34,30 @@ export default {
   },
   mounted() {
     this.initAgenda();
-    this.loadPages();
+    this.loadCurrentPages();
   },
   methods: {
     syncToLocalStorage() {
       localStorage.agenda = JSON.stringify(this.agenda);
     },
-    initAgenda() {
-      if (localStorage.agenda) this.agenda = JSON.parse(localStorage.agenda);
-      else {
-        this.agenda.facesNumber = 1;
-        this.agenda.currentFace = 1;
-        for (let i = 1; i <= 2; i++) {
+    createPages() {
+      for (
+          let i = this.agenda.currentFace * 2;
+          i >= this.agenda.currentFace * 2 - 1;
+          i--
+        ) {
           this.agenda.pages.push({
             index: i,
             header: "",
             body: "",
           });
         }
-      }
     },
-    loadPages() {
+    initAgenda() {
+      if (localStorage.agenda) this.agenda = JSON.parse(localStorage.agenda);
+      else this.createPages();
+    },
+    loadCurrentPages() {
       console.log("svuoto currentPages[]");
       this.agenda.currentPages = [];
       for (
@@ -65,8 +67,12 @@ export default {
       ) {
         console.log(i);
         console.log("aggiungo in currentPages " + this.agenda.pages[i]);
-        this.agenda.currentPages.push(this.agenda.pages[i -1]);
+        this.agenda.currentPages.push(this.agenda.pages[i - 1]);
       }
+    },
+    nextFace() {
+      this.agenda.currentFace++;
+      if (this.agenda.pages.length < this.agenda.currentFace * 2) this.createPages();
     },
   },
 };
