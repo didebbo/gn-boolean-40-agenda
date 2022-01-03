@@ -20,12 +20,15 @@
           placeholder="Contenuto..."
           @input="syncToLocalStorage()"
         ></textarea>
-        <span>
+        <small>
           {{ page.index }}
-        </span>
+        </small>
       </div>
     </div>
-    <button @click="nextFace()">Next</button>
+    <button
+    :disabled="agenda.currentFace >= agenda.maxFaces" 
+    @click="nextFace()"
+    >Next</button>
   </div>
 </template>
 
@@ -36,6 +39,7 @@ export default {
     return {
       agenda: {
         currentFace: 1,
+        maxFaces: 364 /2,
         pages: [],
         currentPages: [],
       },
@@ -109,8 +113,8 @@ export default {
   height: 100vh;
   .agenda {
     border: 0.2em solid black;
-    width: (100% / 1.1);
-    height: (100% / 1.1);
+    width: calc(100% / 1.2);
+    height: calc(100% / 1.1);
     padding: 1em;
     display: flex;
     .face {
@@ -126,6 +130,9 @@ export default {
         font-family: monospace;
         border: none;
         resize: none;
+        &::placeholder {
+            opacity: 0.1;
+          }
         &:focus {
           outline: none;
           &::placeholder {
@@ -135,17 +142,18 @@ export default {
       }
       input {
         text-align: center;
-        font-size: 1.5em;
+        font-size: 1.4em;
+        font-weight: 700;
+        padding-bottom: 2em;
       }
       textarea {
         flex-grow: 1;
         font-size: 1.2em;
       }
-      span {
+      small {
         position: relative;
         bottom: -0.5em;
         display: block;
-        // margin-top: 1em;
       }
     }
   }
