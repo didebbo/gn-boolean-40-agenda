@@ -1,9 +1,10 @@
 <template>
   <div id="app">
+    <button :disabled="agenda.currentFace <= 1" @click="prevFace()">Prev</button>
     <div class="agenda">
       <div
         class="face"
-        v-for="(page, index) in agenda.currentPages.slice().reverse()"
+        v-for="(page, index) in agenda.currentPages"
         :key="index"
       >
         <textarea
@@ -58,22 +59,30 @@ export default {
       else this.createPages();
     },
     loadCurrentPages() {
-      console.log("svuoto currentPages[]");
+      // console.log("svuoto currentPages[]");
       this.agenda.currentPages = [];
       for (
         let i = this.agenda.currentFace * 2;
         i >= this.agenda.currentFace * 2 - 1;
         i--
       ) {
-        console.log(i);
-        console.log("aggiungo in currentPages " + this.agenda.pages[i]);
+        // console.log(i);
+        // console.log("aggiungo in currentPages " + this.agenda.pages[i]);
         this.agenda.currentPages.push(this.agenda.pages[i - 1]);
       }
+      // this.agenda.currentPages = this.agenda.currentPages.slice().reverse();
     },
     nextFace() {
       this.agenda.currentFace++;
       if (this.agenda.pages.length < this.agenda.currentFace * 2) this.createPages();
+      this.loadCurrentPages();
+      this.syncToLocalStorage();
     },
+    prevFace() {
+      this.agenda.currentFace--;
+      this.loadCurrentPages();
+      this.syncToLocalStorage();
+    }
   },
 };
 </script>
@@ -110,9 +119,9 @@ export default {
         font-size: 1.2em;
         border: none;
         resize: none;
-        // &:focus {
-        //   outline: none;
-        // }
+        &:focus {
+          outline: none;
+        }
       }
       span {
         position: relative;
