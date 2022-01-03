@@ -12,6 +12,7 @@
         <input
           type="text"
           spellcheck="false"
+          v-model="page.header"
           placeholder="Titolo"
           maxlength="40"
           @input="syncToLocalStorage()"
