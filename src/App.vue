@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <img
-      src="@/assets/arrow.png"
+      src="@/assets/images/arrow.png"
       class="arrow-left"
       v-if="agenda.currentFace > 0"
       @click="prevFace()"
@@ -48,7 +48,7 @@
       </div>
     </div>
     <img
-      src="@/assets/arrow.png"
+      src="@/assets/images/arrow.png"
       class="arrow-right"
       v-if="agenda.currentFace < agenda.maxFaces + 1"
       @click="nextFace()"
@@ -177,7 +177,7 @@ export default {
     border: 0.2em solid black;
     height: calc(100% / 1.1);
     background-color: #785046;
-    background-image: url("~@/assets/ls.png");
+    background-image: url("~@/assets/images/ls.png");
     background-repeat: repeat;
     padding: 1em;
     display: flex;
