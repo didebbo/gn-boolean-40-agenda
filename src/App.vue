@@ -138,20 +138,30 @@ export default {
   align-items: center;
   height: 100vh;
   background-color: #bca183;
-  // button {
-  //   border: none;
-  //   padding: 1em;
-  //   margin: 1em;
-  //   &:enabled {
-  //     cursor: pointer;
-  //   }
-  // }
   .arrow-left,
   .arrow-right {
+    position: relative;
     width: 4em;
+    cursor: pointer;
+    transition: 0.4s;
+    animation-name: floating;
+    animation-duration: 0.8s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+  .arrow-left {
+    animation-direction: alternate-reverse;
+    &:hover {
+      transform: scale(1.4);
+    }
   }
   .arrow-right {
+    left: 0;
     transform: rotate(180deg);
+    animation-direction: alternate;
+    &:hover {
+      transform: rotate(180deg) scale(1.4);
+    }
   }
   .front-cover,
   .agenda,
@@ -268,6 +278,15 @@ export default {
         display: block;
       }
     }
+  }
+}
+
+@keyframes floating {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 0.5em;
   }
 }
 </style>
