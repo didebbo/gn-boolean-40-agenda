@@ -143,9 +143,9 @@ export default {
     position: relative;
     width: 4em;
     cursor: pointer;
-    transition: 0.4s;
+    transition: transform 0.4s;
     animation-name: floating;
-    animation-duration: 0.8s;
+    animation-duration: 1s;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
   }
@@ -154,13 +154,20 @@ export default {
     &:hover {
       transform: scale(1.4);
     }
+    &:active {
+      transition: none;
+      transform: scale(1);
+    }
   }
   .arrow-right {
-    left: 0;
     transform: rotate(180deg);
     animation-direction: alternate;
     &:hover {
       transform: rotate(180deg) scale(1.4);
+    }
+    &:active {
+      transition: none;
+      transform: rotate(180deg) scale(1);
     }
   }
   .front-cover,
