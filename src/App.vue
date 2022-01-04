@@ -238,12 +238,10 @@ export default {
     border-radius: 0.2em 0.8em 0.8em 0.2em;
     .border {
       position: absolute;
-      // background-color: white;
       top: 50%;
       transform: translateY(-50%);
       left: -0.4em;
-      border-left: 0.2em dashed black;
-      border-right: 0.2em dashed black;
+      border-right: 0.4em dashed black;
       height: 99%;
       padding: 0 0.1em;
     }
@@ -255,8 +253,7 @@ export default {
       top: 50%;
       transform: translateY(-50%);
       right: -0.4em;
-      border-left: 0.2em dashed black;
-      border-right: 0.2em dashed black;
+      border-left: 0.4em dashed black;
       height: 99%;
       padding: 0 0.1em;
     }
