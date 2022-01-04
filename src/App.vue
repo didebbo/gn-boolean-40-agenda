@@ -16,9 +16,9 @@
     </div>
     <div v-else-if="agenda.currentFace <= agenda.maxFaces" class="agenda">
       <div
-        class="face"
-        v-for="(page, index) in agenda.currentPages"
-        :key="index"
+        class="face shake-face"
+        v-for="page in agenda.currentPages"
+        :key="page.index"
       >
         <input
           type="text"
@@ -252,6 +252,13 @@ export default {
     width: calc(80%);
     .face {
       background-color: #efedde;
+      &.shake-face {
+        position: relative;
+        animation-name: shake-face;
+        animation-duration: 0.1s;
+        animation-timing-function: linear;
+        animation-iteration-count: 1;
+      }
       input,
       textarea {
         font-family: monospace;
@@ -294,6 +301,27 @@ export default {
   }
   100% {
     left: 0.5em;
+  }
+}
+
+@keyframes shake-face {
+  0% {
+    left: 0;
+    background-color: #efedde;
+  }
+  25% {
+    left: 0.2em;
+  }
+  50% {
+    left: 0;
+    background-color: #fff;
+  }
+  75% {
+    left: -0.2em;
+  }
+  100% {
+    left: 0;
+    background-color: #fff;
   }
 }
 </style>
