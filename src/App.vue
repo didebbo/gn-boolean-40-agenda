@@ -56,11 +56,9 @@
     <audio id="close.mp3">
       <source :src="require('@/assets/sounds/close.mp3')" type="audio/mp3" />
     </audio>
-    <template v-for="sound in sounds">
-      <audio :id="sound" :key="sound">
-        <source :src="require('@/assets/sounds/' + sound)" type="audio/mp3" />
-      </audio>
-    </template>
+    <audio id="flip.mp3">
+      <source :src="require('@/assets/sounds/flip.mp3')" type="audio/mp3" />
+    </audio>
   </div>
 </template>
 
@@ -75,13 +73,6 @@ export default {
         pages: [],
         currentPages: [],
       },
-      sounds: [
-        "flip_1.mp3",
-        "flip_2.mp3",
-        "flip_3.mp3",
-        "flip_4.mp3",
-        "flip_5.mp3",
-      ],
     };
   },
   mounted() {
@@ -93,19 +84,18 @@ export default {
       localStorage.agenda = JSON.stringify(this.agenda);
     },
     genSound() {
-      document.getElementById("close.mp3").pause();
-      document.getElementById("close.mp3").currentTime = 0;
-      this.sounds.forEach((sound) => {
-        document.getElementById(sound).pause();
-        document.getElementById(sound).currentTime = 0;
-      });
       if (
         this.agenda.currentFace > 0 &&
         this.agenda.currentFace < this.agenda.maxFaces + 1
       ) {
-        const sound = Math.floor(Math.random() * this.sounds.length);
-        document.getElementById(this.sounds[sound]).play();
-      } else document.getElementById("close.mp3").play();
+        document.getElementById("flip.mp3").pause();
+        document.getElementById("flip.mp3").currentTime = 0;
+        document.getElementById("flip.mp3").play();
+      } else {
+        document.getElementById("close.mp3").pause();
+        document.getElementById("close.mp3").currentTime = 0;
+        document.getElementById("close.mp3").play();
+      }
     },
     createPages() {
       for (
