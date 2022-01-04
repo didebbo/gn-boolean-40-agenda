@@ -1,9 +1,20 @@
 <template>
   <div id="app">
-    <button :disabled="agenda.currentFace <= 1" @click="prevFace()">
-      Prev
-    </button>
-    <div class="agenda">
+    <img
+      src="@/assets/arrow.png"
+      class="arrow-left"
+      v-if="agenda.currentFace > 0"
+      @click="prevFace()"
+    />
+    <div v-if="agenda.currentFace < 1" class="front-cover">
+      <div class="border"></div>
+      <div class="face">
+        <div class="header">
+          <h1>Agenda</h1>
+        </div>
+      </div>
+    </div>
+    <div v-else-if="agenda.currentFace <= agenda.maxFaces" class="agenda">
       <div
         class="face"
         v-for="(page, index) in agenda.currentPages"
@@ -28,12 +39,20 @@
         </small>
       </div>
     </div>
-    <button
-      :disabled="agenda.currentFace >= agenda.maxFaces"
+    <div v-else class="back-cover">
+      <div class="border"></div>
+      <div class="face">
+        <div class="pie">
+          <small> Pagine totali: {{ agenda.pages.length }} </small>
+        </div>
+      </div>
+    </div>
+    <img
+      src="@/assets/arrow.png"
+      class="arrow-right"
+      v-if="agenda.currentFace < agenda.maxFaces + 1"
       @click="nextFace()"
-    >
-      Next
-    </button>
+    />
   </div>
 </template>
 
@@ -43,8 +62,8 @@ export default {
   data: () => {
     return {
       agenda: {
-        currentFace: 1,
-        maxFaces: 364 / 2,
+        currentFace: 0,
+        maxFaces: 10,
         pages: [],
         currentPages: [],
       },
@@ -73,7 +92,6 @@ export default {
     },
     initAgenda() {
       if (localStorage.agenda) this.agenda = JSON.parse(localStorage.agenda);
-      else this.createPages();
     },
     loadCurrentPages() {
       // console.log("svuoto currentPages[]");
@@ -91,7 +109,10 @@ export default {
     },
     nextFace() {
       this.agenda.currentFace++;
-      if (this.agenda.pages.length < this.agenda.currentFace * 2)
+      if (
+        this.agenda.currentFace <= this.agenda.maxFaces &&
+        this.agenda.pages.length < this.agenda.currentFace * 2
+      )
         this.createPages();
       this.loadCurrentPages();
       this.syncToLocalStorage();
@@ -117,39 +138,108 @@ export default {
   align-items: center;
   height: 100vh;
   background-color: #bca183;
-  button {
-    border: none;
-    padding: 1em;
-    margin: 1em;
-    &:enabled {
-      cursor: pointer;
-    }
+  // button {
+  //   border: none;
+  //   padding: 1em;
+  //   margin: 1em;
+  //   &:enabled {
+  //     cursor: pointer;
+  //   }
+  // }
+  .arrow-left,
+  .arrow-right {
+    width: 4em;
   }
-  .agenda {
-    border-radius: 0.4em;
+  .arrow-right {
+    transform: rotate(180deg);
+  }
+  .front-cover,
+  .agenda,
+  .back-cover {
+    border-radius: 0.8em;
     border: 0.2em solid black;
-    // width: calc(100% / 1.2);
     height: calc(100% / 1.1);
     background-color: #785046;
-    flex-grow: 1;
+    background-image: url("~@/assets/ls.png");
+    background-repeat: repeat;
     padding: 1em;
     display: flex;
     .face {
-      background-color: #efedde;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       flex-grow: 1;
       border: 0.2em solid black;
-      border-radius: 0.4em;
+      border-radius: 0.8em;
       padding: 0.5em;
-      display: flex;
+    }
+  }
+  .front-cover,
+  .back-cover {
+    width: calc(40%);
+    position: relative;
+    .face {
+      border: none;
+      .header,
+      .body {
+        width: 100%;
+      }
+      font-family: "Times New Roman", Times, serif;
+      color: hsl(43, 44%, 49%);
+      .header {
+        text-align: center;
+        h1 {
+          font-size: 2.4em;
+        }
+      }
+    }
+  }
+  .front-cover {
+    border-radius: 0.2em 0.8em 0.8em 0.2em;
+    .border {
+      position: absolute;
+      // background-color: white;
+      top: 50%;
+      transform: translateY(-50%);
+      left: -0.4em;
+      border-left: 0.2em dashed black;
+      border-right: 0.2em dashed black;
+      height: 99%;
+      padding: 0 0.1em;
+    }
+  }
+  .back-cover {
+    border-radius: 0.8em 0.2em 0.2em 0.8em;
+    .border {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: -0.4em;
+      border-left: 0.2em dashed black;
+      border-right: 0.2em dashed black;
+      height: 99%;
+      padding: 0 0.1em;
+    }
+    .face {
+      align-items: flex-start;
+      justify-content: flex-end;
+      .pie {
+        font-style: italic;
+        font-size: 1.1em;
+        // font-weight: 500;
+      }
+    }
+  }
+  .agenda {
+    width: calc(80%);
+    .face {
+      background-color: #efedde;
       input,
       textarea {
+        font-family: monospace;
         background-color: transparent;
         width: 100%;
-        font-family: monospace;
         border: none;
         resize: none;
         &::placeholder {
