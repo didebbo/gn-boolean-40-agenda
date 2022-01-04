@@ -1,5 +1,12 @@
 <template>
   <div id="app">
+    <audio id="sound">
+      <source
+        v-if="sound_src"
+        :src="require('@/assets/sounds/' + sound_src)"
+        type="audio/mp3"
+      />
+    </audio>
     <img
       src="@/assets/images/arrow.png"
       class="arrow-left"
@@ -61,6 +68,7 @@ export default {
   name: "App",
   data: () => {
     return {
+      sound_src: null,
       agenda: {
         currentFace: 0,
         maxFaces: 10,
@@ -76,6 +84,9 @@ export default {
   methods: {
     syncToLocalStorage() {
       localStorage.agenda = JSON.stringify(this.agenda);
+    },
+    genSound() {
+      alert(this.agenda.currentFace);
     },
     createPages() {
       for (
@@ -114,11 +125,13 @@ export default {
         this.agenda.pages.length < this.agenda.currentFace * 2
       )
         this.createPages();
+      this.genSound();
       this.loadCurrentPages();
       this.syncToLocalStorage();
     },
     prevFace() {
       this.agenda.currentFace--;
+      this.genSound();
       this.loadCurrentPages();
       this.syncToLocalStorage();
     },
